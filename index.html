@@ -2,130 +2,206 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>SCFHS Level-4 Hard Demo</title>
+<title>SCFHS Prometric – Level 4 + Analytics</title>
+
 <style>
-body {
-  font-family: Arial, sans-serif;
-  background:#f4f6f8;
-  margin:0;
-  padding:20px;
-}
-.container {
-  max-width:900px;
-  margin:auto;
-  background:#fff;
-  padding:25px;
-  border-radius:8px;
-  box-shadow:0 0 10px rgba(0,0,0,0.1);
-}
-h2 { color:#222; }
-.option {
-  margin:10px 0;
-  padding:10px;
-  border:1px solid #ccc;
-  border-radius:6px;
-  cursor:pointer;
-}
-.option:hover { background:#eef5ff; }
-button {
-  margin-top:15px;
-  padding:10px 20px;
-  font-size:16px;
-}
-.hidden { display:none; }
+body { font-family: Arial, sans-serif; background:#eef1f4; padding:20px; }
+.container { max-width:1000px; margin:auto; background:#fff; padding:25px; border-radius:8px; }
 
-.correct { border-color:green; background:#e9f7ef; }
-.wrong { border-color:#d9534f; background:#fbeaea; }
+.option { border:1px solid #bbb; padding:12px; margin-bottom:10px; border-radius:5px; cursor:pointer; }
+.option input { margin-right:10px; }
+.option.correct { background:#e8f8f0; border-color:#2ecc71; }
+.option.wrong { background:#fdecea; border-color:#e74c3c; }
+.option.locked { pointer-events:none; opacity:0.9; }
 
-.tag {
-  font-weight:bold;
-  margin-top:5px;
-}
-.tag.correct { color:green; }
-.tag.trap { color:#d9534f; }
+.tag { font-size:12px; font-weight:bold; margin-top:6px; }
+.scfhs { color:#1e8449; }
+.nclex { color:#d68910; }
+.str { color:#ca6f1e; }
+.trap { color:#922b21; }
 
-.rationale-box {
-  margin-top:20px;
-  padding:15px;
-  background:#f9fafb;
-  border-left:5px solid #007bff;
+button { padding:10px 22px; font-size:16px; border:none; border-radius:5px; cursor:pointer; }
+#submitBtn { background:#2874a6; color:#fff; }
+#nextBtn { background:#239b56; color:#fff; display:none; }
+
+#rationale, #report {
+  display:none;
+  margin-top:25px;
+  border-top:2px solid #ccc;
+  padding-top:20px;
 }
+
+.patho { background:#f9f9f9; padding:15px; font-family:monospace; border-left:5px solid #555; }
 </style>
 </head>
 
 <body>
 <div class="container">
 
-<h2>SCFHS Level-4 Hard (Demo)</h2>
+<h2 id="title"></h2>
+<p id="question"></p>
 
-<p><b>Question:</b><br>
-A 68-year-old postoperative patient becomes restless.  
-BP 84/50, HR 128, RR 30, SpO₂ 91%.  
-Urine output is 20 mL/hr.<br><br>
-What is the <b>PRIORITY</b> nursing action?
-</p>
+<div id="options"></div>
 
-<div class="option">
-  <input type="radio" name="q1" value="A"> A. Start isotonic IV fluids
-</div>
-<div class="option">
-  <input type="radio" name="q1" value="B"> B. Administer IV antibiotics
-</div>
-<div class="option">
-  <input type="radio" name="q1" value="C"> C. Give furosemide
-</div>
-<div class="option">
-  <input type="radio" name="q1" value="D"> D. Obtain blood cultures
-</div>
+<br>
+<button id="submitBtn">Submit Answer</button>
+<button id="nextBtn">Next Question</button>
 
-<button onclick="submitAnswer()">Submit</button>
-
-<div id="rationale" class="rationale-box hidden"></div>
+<div id="rationale"></div>
+<div id="report"></div>
 
 </div>
 
 <script>
-function submitAnswer() {
-  const selected = document.querySelector('input[name="q1"]:checked');
-  if (!selected) {
-    alert("Select an answer first");
-    return;
+/* ======================= QUESTIONS ======================= */
+const questions = [
+{
+stem:"Post-op patient confused, BP 82/46, HR 134. Priority?",
+correct:0,
+options:[
+{t:"Rapid IV fluids",tag:"SCFHS_CORRECT",r:"Restores preload and perfusion."},
+{t:"High-flow oxygen",tag:"NCLEX_LEADING",r:"Perfusion failure is primary."},
+{t:"Notify physician",tag:"STR_DELAY",r:"Escalation without intervention delays care."},
+{t:"Insert Foley",tag:"DISTRACTOR",r:"Does not reverse shock."}
+],
+p:"Hypovolemia → ↓ preload → ↓ CO → ↓ MAP → organ hypoperfusion"
+},
+{
+stem:"Septic shock: BP 84/48, lactate 5.1. Priority?",
+correct:1,
+options:[
+{t:"Antipyretics",tag:"DISTRACTOR",r:"Does not restore perfusion."},
+{t:"Aggressive IV fluids",tag:"SCFHS_CORRECT",r:"Corrects relative hypovolemia."},
+{t:"Immediate vasopressors",tag:"NCLEX_TRAP",r:"Used after fluids."},
+{t:"Blood cultures",tag:"STR_DELAY",r:"Do not delay stabilization."}
+],
+p:"Sepsis → vasodilation → ↓ perfusion → ↑ lactate"
+},
+{
+stem:"Acute MI with pulmonary edema, BP 78/44. Priority?",
+correct:2,
+options:[
+{t:"Large IV bolus",tag:"NCLEX_TRAP",r:"Worsens pulmonary edema."},
+{t:"Trendelenburg",tag:"DISTRACTOR",r:"No effect on pump failure."},
+{t:"Inotropic support",tag:"SCFHS_CORRECT",r:"Improves contractility."},
+{t:"Wait for cardiology",tag:"STR_DELAY",r:"Delays reperfusion."}
+],
+p:"MI → ↓ contractility → ↓ CO → shock"
+}
+];
+
+/* ======================= ANALYTICS ======================= */
+let current = 0;
+let analytics = {
+  correct: 0,
+  nclex: 0,
+  str: 0,
+  trap: 0
+};
+
+/* ======================= LOAD QUESTION ======================= */
+function loadQ() {
+  const q = questions[current];
+  document.getElementById("title").innerText = `SCFHS Level-4 (Q ${current+1}/${questions.length})`;
+  document.getElementById("question").innerHTML = q.stem;
+
+  const opt = document.getElementById("options");
+  opt.innerHTML = "";
+  q.options.forEach((o,i)=>{
+    opt.innerHTML += `<label class="option">
+      <input type="radio" name="a" value="${i}">${o.t}
+    </label>`;
+  });
+
+  document.getElementById("rationale").style.display="none";
+  document.getElementById("submitBtn").style.display="inline-block";
+  document.getElementById("nextBtn").style.display="none";
+}
+
+/* ======================= SUBMIT ======================= */
+document.getElementById("submitBtn").onclick = ()=>{
+  const sel = document.querySelector("input[name='a']:checked");
+  if(!sel){ alert("Select an answer"); return; }
+
+  const q = questions[current];
+  const idx = parseInt(sel.value);
+
+  if(idx === q.correct) analytics.correct++;
+  else {
+    const tag = q.options[idx].tag;
+    if(tag.includes("NCLEX")) analytics.nclex++;
+    else if(tag.includes("STR")) analytics.str++;
+    else analytics.trap++;
   }
 
-  const rationaleBox = document.getElementById("rationale");
-  rationaleBox.classList.remove("hidden");
+  document.querySelectorAll(".option").forEach((op,i)=>{
+    op.classList.add("locked");
+    if(i===q.correct) op.classList.add("correct");
+    else if(i===idx) op.classList.add("wrong");
 
-  // Auto-detected physiology
-  let output = `
-  <b>🧠 Auto-Detected Physiology:</b><br>
-  Hypovolemic Shock – intravascular volume loss → ↓ preload → ↓ cardiac output<br><br>
-  `;
+    const d=document.createElement("div");
+    d.className="tag "+tagClass(q.options[i].tag);
+    d.innerText=q.options[i].tag;
+    op.appendChild(d);
+  });
 
-  // Correct answer
-  output += `
-  <b>✅ Correct Answer: A. Start isotonic IV fluids</b><br>
-  <span class="tag correct">SCFHS Priority</span><br>
-  Fluids immediately restore circulating volume and tissue perfusion.<br><br>
-  `;
+  showRationale(q);
+};
 
-  // Distractor logic
-  output += `
-  <b>❌ Option B: Administer IV antibiotics</b><br>
-  <span class="tag trap">NCLEX Delay Trap</span><br>
-  Correct treatment, wrong timing. Antibiotics do not correct hypotension.<br><br>
+/* ======================= NEXT ======================= */
+document.getElementById("nextBtn").onclick = ()=>{
+  current++;
+  if(current < questions.length) loadQ();
+  else showReport();
+};
 
-  <b>❌ Option C: Give furosemide</b><br>
-  <span class="tag trap">Dangerous Distractor</span><br>
-  Diuretics worsen hypovolemia and shock.<br><br>
-
-  <b>❌ Option D: Obtain blood cultures</b><br>
-  <span class="tag trap">STR Safety Trap</span><br>
-  Diagnostic action delays life-saving intervention.
-  `;
-
-  rationaleBox.innerHTML = output;
+/* ======================= HELPERS ======================= */
+function tagClass(tag){
+  if(tag.includes("SCFHS")) return "scfhs";
+  if(tag.includes("NCLEX")) return "nclex";
+  if(tag.includes("STR")) return "str";
+  return "trap";
 }
-</script>
 
+function showRationale(q){
+  const r=document.getElementById("rationale");
+  r.style.display="block";
+  let h="<h3>Rationale</h3>";
+  q.options.forEach((o,i)=>h+=`<p><b>Option ${i+1}:</b> ${o.r}</p>`);
+  h+=`<h3>Pathophysiology Sketch</h3><div class="patho">${q.p}</div>`;
+  r.innerHTML=h;
+
+  document.getElementById("submitBtn").style.display="none";
+  document.getElementById("nextBtn").style.display="inline-block";
+}
+
+/* ======================= FINAL REPORT ======================= */
+function showReport(){
+  const r=document.getElementById("report");
+  r.style.display="block";
+
+  let profile = "Balanced learner";
+  if(analytics.nclex > analytics.str && analytics.nclex > analytics.trap)
+    profile = "NCLEX-oriented thinker (safety > physiology)";
+  else if(analytics.str > analytics.nclex)
+    profile = "Policy-driven thinker (delays intervention)";
+  else if(analytics.trap > 0)
+    profile = "Distractor-vulnerable under pressure";
+
+  r.innerHTML = `
+    <h2>SCFHS Diagnostic Report</h2>
+    <p><b>Correct:</b> ${analytics.correct}</p>
+    <p><b>NCLEX-leading errors:</b> ${analytics.nclex}</p>
+    <p><b>STR delay errors:</b> ${analytics.str}</p>
+    <p><b>Pure distractor errors:</b> ${analytics.trap}</p>
+    <hr>
+    <h3>Candidate Profile</h3>
+    <p>${profile}</p>
+    <p><b>SCFHS Recommendation:</b> Train physiologic priority & collapse-first decision making.</p>
+  `;
+}
+
+loadQ();
+</script>
 </body>
 </html>
