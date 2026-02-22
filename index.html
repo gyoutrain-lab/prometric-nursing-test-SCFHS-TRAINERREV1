@@ -139,7 +139,101 @@ const questions = [
     correctTag: "SCFHS",
     mechanism: "respiration.kussmaul"
   }
+];
 
+// ================================
+// RATIONALE LIBRARY
+// ================================
+const rationaleLibrary = {
+  heatTransfer: {
+    conduction: {
+      correct: "Direct contact transfers heat from warm skin to cold water.",
+      distractors: {
+        SAFE_DELAY: "Evaporation requires liquid turning to vapor, not immersion.",
+        NCLEX: "Convection involves moving air or fluid, not direct contact.",
+        STR: "Radiation transfers heat without contact."
+      },
+      exam: "Conduction → direct contact\nConvection → moving air/fluid\nRadiation → no contact\nEvaporation → liquid to vapor",
+      patho: "Immersion → thermal gradient → heat flows from skin to water → core temperature decreases",
+      intuitive: "Touch ice = conduction\nCold wind = convection\nSun = radiation\nSweat drying = evaporation"
+    }
+  },
+  shock: {
+    hypovolemic: {
+      correct: "Rapid isotonic fluid administration restores circulating volume and tissue perfusion.",
+      distractors: {
+        NCLEX: "Antibiotics do not correct hypotension immediately.",
+        STR: "Diuretics worsen volume depletion.",
+        SAFE_DELAY: "Diagnostic actions delay life-saving intervention."
+      },
+      exam: "Hypovolemia → ↓ preload → ↓ cardiac output → ↓ MAP → organ hypoperfusion",
+      patho: "Fluid loss → ↓ venous return → ↓ stroke volume → ↓ MAP → organ hypoperfusion",
+      intuitive: "Empty tank = low pressure → organs starve → need fluid replacement"
+    }
+  },
+  urinary: {
+    hematuria: {
+      correct: "Bright red urine may indicate trauma or bleeding; notify the nurse immediately for assessment.",
+      distractors: {
+        SAFE_DELAY: "Continuing to monitor delays potentially critical intervention.",
+        NCLEX: "Increasing fluids alone does not address potential bleeding.",
+        STR: "Catheter irrigation should not be performed without a nurse order."
+      },
+      exam: "Hematuria → assess source → notify nurse → prevent complications",
+      patho: "Trauma/anticoagulation → bleeding into urinary tract → red urine",
+      intuitive: "Red urine = alert nurse → don't ignore"
+    }
+  },
+  iv: {
+    phlebitis: {
+      correct: "Redness, warmth, and swelling indicate IV phlebitis; stop infusion and notify nurse.",
+      distractors: {
+        NCLEX: "Increasing infusion rate worsens irritation.",
+        STR: "Applying heat without stopping infusion is unsafe.",
+        SAFE_DELAY: "Ignoring or documenting delays proper intervention."
+      },
+      exam: "IV phlebitis → stop infusion → notify nurse → prevent complications",
+      patho: "Irritation/infection → endothelial inflammation → redness/swelling",
+      intuitive: "Hot, red IV site = stop and call nurse"
+    }
+  },
+  safety: {
+    ambulation: {
+      correct: "Using a gait belt and positioning yourself slightly behind reduces fall risk safely.",
+      distractors: {
+        NCLEX: "Holding forearm alone is unsafe for high-risk patient.",
+        STR: "Walking independently increases fall risk.",
+        SAFE_DELAY: "Walking in front doesn't provide safe support."
+      },
+      exam: "Fall-risk patient → gait belt → proper positioning → prevent injury",
+      patho: "Unsteady patient → inadequate support → increased fall likelihood",
+      intuitive: "Support belt = safety → be ready behind patient"
+    },
+    oxygen: {
+      correct: "Use least restrictive intervention (soft mitts) and monitor patient.",
+      distractors: {
+        STR: "Physical restraints are last-resort and increase harm risk.",
+        SAFE_DELAY: "Removing oxygen delays care.",
+        NCLEX: "Isolating patient does not ensure safety or oxygenation."
+      },
+      exam: "Confused patient → prevent self-harm → least restrictive → monitor",
+      patho: "Confusion → risk of removing oxygen → hypoxia",
+      intuitive: "Keep oxygen in place safely without harming patient"
+    }
+  },
+  respiration: {
+    kussmaul: {
+      correct: "Kussmaul respirations indicate metabolic acidosis, commonly diabetic ketoacidosis.",
+      distractors: {
+        NCLEX: "Heart failure presents differently.",
+        STR: "Hypovolemia does not typically cause deep, rapid breathing.",
+        SAFE_DELAY: "Respiratory infection may alter pattern but not Kussmaul."
+      },
+      exam: "Deep, rapid breathing → metabolic acidosis → assess cause",
+      patho: "Acidosis → chemoreceptor stimulation → deep, rapid breaths",
+      intuitive: "Fast, deep breaths = body trying to blow off acid"
+    }
+  }
 };
 
 // ================================
