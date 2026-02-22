@@ -7,8 +7,7 @@
 body {
   font-family: Arial, sans-serif;
   background:#f4f6f8;
-  margin:0;
-  padding:0;
+  margin:0; padding:0;
 }
 .container {
   max-width:1000px;
@@ -85,6 +84,13 @@ button {
   line-height:20px;
   transition:0.3s;
 }
+
+.jump-container {
+  margin-bottom:20px;
+}
+.jump-container input {
+  width:60px; padding:6px; margin-right:10px;
+}
 </style>
 </head>
 <body>
@@ -92,13 +98,20 @@ button {
 <div class="container">
 <h2>SCFHS Classroom Rationale Engine</h2>
 
+<div class="jump-container hidden" id="jumpDiv">
+  Jump to question: 
+  <input type="number" id="jumpInput" min="1">
+  <button onclick="jumpToQuestion()">Go</button>
+</div>
+
 <div class="progress-container">
   <div class="progress-bar" id="progressBar">0%</div>
 </div>
 
-<div id="quiz"></div>
+<div id="quiz" class="hidden"></div>
 <div id="review" class="review hidden"></div>
 
+<button id="startBtn" onclick="startQuiz()">Start Quiz</button>
 <button onclick="nextQuestion()" id="nextBtn" class="hidden">Next Question</button>
 </div>
 
@@ -117,9 +130,20 @@ const questions = [
     ],
     correctTag: "SCFHS",
     mechanism: "heatTransfer.conduction"
-  }
+  },
 
   {
+    q: "A 68-year-old postoperative patient becomes restless with BP 84/50, HR 128. What is the priority action?",
+    options: [
+      { text: "Start isotonic IV fluids", tag: "SCFHS" },
+      { text: "Administer IV antibiotics", tag: "NCLEX" },
+      { text: "Give furosemide", tag: "STR" },
+      { text: "Obtain blood cultures", tag: "SAFE_DELAY" }
+    ],
+    correctTag: "SCFHS",
+    mechanism: "shock.hypovolemic"
+  }
+   {
   q: "When the nurse put the baby with high temperature in to cold water the baby will lose temperature through?",
   options: [
     { text: "Evaporation", tag: "NCLEX" },
@@ -2054,28 +2078,28 @@ const questions = [
 const rationaleLibrary = {
   heatTransfer: {
     conduction: {
-      correct:
-        "Direct contact transfers heat from warm skin to cold water, defining conduction as the main mechanism.",
+      correct: "Direct contact transfers heat from warm skin to cold water.",
       distractors: {
-        SAFE_DELAY:
-          "Evaporation requires liquid turning to vapor, which does not occur during immersion.",
-        NCLEX:
-          "Convection involves moving air or fluid, not direct contact.",
-        STR:
-          "Radiation transfers heat without physical contact."
+        SAFE_DELAY: "Evaporation requires liquid turning to vapor, not immersion.",
+        NCLEX: "Convection involves moving air or fluid, not direct contact.",
+        STR: "Radiation transfers heat without contact."
       },
-      exam:
-`Conduction → direct contact
-Convection → moving air or fluid
-Radiation → no contact
-Evaporation → liquid to vapor`,
-      patho:
-`Immersion → thermal gradient established → heat flows from warm skin to cold water → core temperature decreases`,
-      intuitive:
-`Touching ice = conduction
-Cold wind = convection
-Sun exposure = radiation
-Sweat drying = evaporation`
+      exam: "Conduction → direct contact\nConvection → moving air/fluid\nRadiation → no contact\nEvaporation → liquid to vapor",
+      patho: "Immersion → thermal gradient → heat flows from skin to water → core temperature decreases",
+      intuitive: "Touch ice = conduction\nCold wind = convection\nSun = radiation\nSweat drying = evaporation"
+    }
+  },
+  shock: {
+    hypovolemic: {
+      correct: "Rapid isotonic fluid administration restores circulating volume and tissue perfusion.",
+      distractors: {
+        NCLEX: "Antibiotics do not correct hypotension immediately.",
+        STR: "Diuretics worsen volume depletion.",
+        SAFE_DELAY: "Diagnostic actions delay life-saving intervention."
+      },
+      exam: "Hypovolemia → ↓ preload → ↓ cardiac output → ↓ MAP → organ hypoperfusion",
+      patho: "Fluid loss → ↓ venous return → ↓ stroke volume → ↓ MAP → organ hypoperfusion",
+      intuitive: "Empty tank = low pressure → organs starve → need fluid replacement"
     }
   }
 };
@@ -2086,6 +2110,16 @@ Sweat drying = evaporation`
 let index = 0;
 
 // ================================
+// START QUIZ
+// ================================
+function startQuiz() {
+  document.getElementById("startBtn").classList.add("hidden");
+  document.getElementById("quiz").classList.remove("hidden");
+  document.getElementById("jumpDiv").classList.remove("hidden");
+  renderQuestion();
+}
+
+// ================================
 // RENDER QUESTION
 // ================================
 function renderQuestion() {
@@ -2094,7 +2128,6 @@ function renderQuestion() {
   document.getElementById("review").classList.add("hidden");
   document.getElementById("nextBtn").classList.add("hidden");
 
-  // Render question
   quizDiv.innerHTML = `<p><b>Question ${index+1}:</b><br>${q.q}</p>`;
 
   q.options.forEach((o,i)=>{
@@ -2119,32 +2152,27 @@ function selectAnswer(tag, div) {
   const [group,key] = q.mechanism.split(".");
   const mech = rationaleLibrary[group][key];
 
-  const optionsDivs = document.querySelectorAll(".option");
-  optionsDivs.forEach(d=>{
-    d.style.pointerEvents="none"; // prevent multiple clicks
-  });
+  // Disable further clicks
+  document.querySelectorAll(".option").forEach(d=>d.style.pointerEvents="none");
 
   // Highlight correct/incorrect
-  optionsDivs.forEach(d=>{
+  document.querySelectorAll(".option").forEach(d=>{
     if(d.innerHTML.includes(q.correctTag)) d.classList.add("correct");
     else d.classList.add("incorrect");
   });
 
-  // Build review content
+  // Build review
   let html = `<div class="header">✅ Correct Rationale</div>${mech.correct}`;
   html += `<div class="header">❌ Option Analysis</div>`;
   q.options.forEach(o=>{
-    if(o.tag === q.correctTag){
-      html += `<div><b>${o.text}</b> (${o.tag}) — Correct</div>`;
-    } else {
-      html += `<div><b>${o.text}</b> (${o.tag}) — ${mech.distractors[o.tag]}</div>`;
-    }
+    if(o.tag===q.correctTag) html += `<div><b>${o.text}</b> (${o.tag}) — Correct</div>`;
+    else html += `<div><b>${o.text}</b> (${o.tag}) — ${mech.distractors[o.tag]}</div>`;
   });
 
   html += `<div class="expand">
-  <div class="header">Core Principle (Exam Language)</div><pre>${mech.exam}</pre>
-  <div class="header">Pathophysiologic Chain</div><pre>${mech.patho}</pre>
-  <div class="header">Intuitive Clinical Mapping</div><pre>${mech.intuitive}</pre>
+    <div class="header">Core Principle (Exam Language)</div><pre>${mech.exam}</pre>
+    <div class="header">Pathophysiologic Chain</div><pre>${mech.patho}</pre>
+    <div class="header">Intuitive Clinical Mapping</div><pre>${mech.intuitive}</pre>
   </div>`;
 
   review.innerHTML = html;
@@ -2166,6 +2194,19 @@ function nextQuestion() {
 }
 
 // ================================
+// JUMP TO SPECIFIC QUESTION
+// ================================
+function jumpToQuestion() {
+  const input = parseInt(document.getElementById("jumpInput").value);
+  if(isNaN(input) || input<1 || input>questions.length){
+    alert("Invalid question number");
+    return;
+  }
+  index = input-1;
+  renderQuestion();
+}
+
+// ================================
 // PROGRESS BAR
 // ================================
 function updateProgress(){
@@ -2174,9 +2215,6 @@ function updateProgress(){
   bar.style.width = percent+"%";
   bar.innerText = percent+"%";
 }
-
-// INIT
-renderQuestion();
 </script>
 
 </body>
