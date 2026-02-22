@@ -84,7 +84,132 @@ const questions = [
     correctTag: "SCFHS",
     mechanism: "shock.hypovolemic"
   }
-  // Inject more questions here
+ {
+    q: "A patient with a new urinary catheter reports bright red urine in the drainage bag. What should the nurse technician do first?",
+    options: [
+      { text: "Continue monitoring", tag: "SAFE_DELAY" },
+      { text: "Notify the nurse immediately", tag: "SCFHS" },
+      { text: "Increase fluid intake", tag: "NCLEX" },
+      { text: "Irrigate the catheter yourself", tag: "STR" }
+    ],
+    correctTag: "SCFHS",
+    mechanism: "urinary.hematuria"
+  },
+  {
+    q: "A patient develops redness, warmth, and swelling at an IV site while receiving antibiotics. The nurse technician should:",
+    options: [
+      { text: "Stop infusion and report to nurse", tag: "SCFHS" },
+      { text: "Increase infusion rate", tag: "NCLEX" },
+      { text: "Apply heat and continue infusion", tag: "STR" },
+      { text: "Document and ignore", tag: "SAFE_DELAY" }
+    ],
+    correctTag: "SCFHS",
+    mechanism: "iv.phlebitis"
+  },
+  {
+    q: "When assisting a fall-risk patient with ambulation, the safest technique is to:",
+    options: [
+      { text: "Use a gait belt and walk slightly behind patient", tag: "SCFHS" },
+      { text: "Hold patient’s forearm only", tag: "NCLEX" },
+      { text: "Allow patient to walk independently", tag: "STR" },
+      { text: "Walk in front while patient holds your shoulder", tag: "SAFE_DELAY" }
+    ],
+    correctTag: "SCFHS",
+    mechanism: "safety.ambulation"
+  },
+  {
+    q: "A confused patient repeatedly removes their oxygen cannula. The safest intervention is:",
+    options: [
+      { text: "Apply soft mitts and continue monitoring", tag: "SCFHS" },
+      { text: "Restrain the patient’s arms immediately", tag: "STR" },
+      { text: "Remove oxygen and let patient rest", tag: "SAFE_DELAY" },
+      { text: "Put patient alone in a quiet room", tag: "NCLEX" }
+    ],
+    correctTag: "SCFHS",
+    mechanism: "safety.oxygen"
+  },
+  {
+    q: "A patient shows Kussmaul respirations. The nurse technician should recognize this as a sign of:",
+    options: [
+      { text: "Metabolic acidosis", tag: "SCFHS" },
+      { text: "Heart failure", tag: "NCLEX" },
+      { text: "Hypovolemia", tag: "STR" },
+      { text: "Respiratory infection", tag: "SAFE_DELAY" }
+    ],
+    correctTag: "SCFHS",
+    mechanism: "respiration.kussmaul"
+  }
+);
+
+// ================================
+// ADDITIONAL RATIONALE ENTRIES
+// ================================
+rationaleLibrary.urinary = {
+  hematuria: {
+    correct: "Bright red urine may indicate trauma or bleeding; notify the nurse immediately for assessment.",
+    distractors: {
+      SAFE_DELAY: "Continuing to monitor delays potentially critical intervention.",
+      NCLEX: "Increasing fluids alone does not address potential bleeding.",
+      STR: "Catheter irrigation should not be performed without a nurse order."
+    },
+    exam: "Hematuria → assess source → notify nurse → prevent complications",
+    patho: "Trauma/anticoagulation → bleeding into urinary tract → red urine",
+    intuitive: "Red urine = alert nurse → don't ignore"
+  }
+};
+
+rationaleLibrary.iv = {
+  phlebitis: {
+    correct: "Redness, warmth, and swelling indicate IV phlebitis; stop infusion and notify nurse.",
+    distractors: {
+      NCLEX: "Increasing infusion rate worsens irritation.",
+      STR: "Applying heat without stopping infusion is unsafe.",
+      SAFE_DELAY: "Ignoring or documenting delays proper intervention."
+    },
+    exam: "IV phlebitis → stop infusion → notify nurse → prevent complications",
+    patho: "Irritation/infection → endothelial inflammation → redness/swelling",
+    intuitive: "Hot, red IV site = stop and call nurse"
+  }
+};
+
+rationaleLibrary.safety = {
+  ambulation: {
+    correct: "Using a gait belt and positioning yourself slightly behind reduces fall risk safely.",
+    distractors: {
+      NCLEX: "Holding forearm alone is unsafe for high-risk patient.",
+      STR: "Walking independently increases fall risk.",
+      SAFE_DELAY: "Walking in front doesn't provide safe support."
+    },
+    exam: "Fall-risk patient → gait belt → proper positioning → prevent injury",
+    patho: "Unsteady patient → inadequate support → increased fall likelihood",
+    intuitive: "Support belt = safety → be ready behind patient"
+  },
+  oxygen: {
+    correct: "Use least restrictive intervention (soft mitts) and monitor patient.",
+    distractors: {
+      STR: "Physical restraints are last-resort and increase harm risk.",
+      SAFE_DELAY: "Removing oxygen delays care.",
+      NCLEX: "Isolating patient does not ensure safety or oxygenation."
+    },
+    exam: "Confused patient → prevent self-harm → least restrictive → monitor",
+    patho: "Confusion → risk of removing oxygen → hypoxia",
+    intuitive: "Keep oxygen in place safely without harming patient"
+  }
+};
+
+rationaleLibrary.respiration = {
+  kussmaul: {
+    correct: "Kussmaul respirations indicate metabolic acidosis, commonly diabetic ketoacidosis.",
+    distractors: {
+      NCLEX: "Heart failure presents differently.",
+      STR: "Hypovolemia does not typically cause deep, rapid breathing.",
+      SAFE_DELAY: "Respiratory infection may alter pattern but not Kussmaul."
+    },
+    exam: "Deep, rapid breathing → metabolic acidosis → assess cause",
+    patho: "Acidosis → chemoreceptor stimulation → deep, rapid breaths",
+    intuitive: "Fast, deep breaths = body trying to blow off acid"
+  }
+
 ];
 
 // ================================
