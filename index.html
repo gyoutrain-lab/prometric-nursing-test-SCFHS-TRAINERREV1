@@ -234,6 +234,106 @@ const rationaleLibrary = {
       intuitive: "Fast, deep breaths = body trying to blow off acid"
     }
   }
+{
+    q: "When a nurse places a febrile infant into cold water, how is heat primarily lost?",
+    options: [
+      { text: "Evaporation", tag: "SAFE_DELAY" },
+      { text: "Convection", tag: "NCLEX" },
+      { text: "Conduction", tag: "SCFHS" },
+      { text: "Radiation", tag: "STR" }
+    ],
+    correctTag: "SCFHS",
+    mechanism: "heatTransfer.conduction"
+  },
+  {
+    q: "A 68-year-old postoperative patient becomes restless with BP 84/50, HR 128. What is the priority action?",
+    options: [
+      { text: "Start isotonic IV fluids", tag: "SCFHS" },
+      { text: "Administer IV antibiotics", tag: "NCLEX" },
+      { text: "Give furosemide", tag: "STR" },
+      { text: "Obtain blood cultures", tag: "SAFE_DELAY" }
+    ],
+    correctTag: "SCFHS",
+    mechanism: "shock.hypovolemic"
+  },
+  {
+    q: "A patient with a new urinary catheter reports bright red urine in the drainage bag. What should the nurse technician do first?",
+    options: [
+      { text: "Continue monitoring", tag: "SAFE_DELAY" },
+      { text: "Notify the nurse immediately", tag: "SCFHS" },
+      { text: "Increase fluid intake", tag: "NCLEX" },
+      { text: "Irrigate the catheter yourself", tag: "STR" }
+    ],
+    correctTag: "SCFHS",
+    mechanism: "urinary.hematuria"
+  },
+  {
+    q: "A patient develops redness, warmth, and swelling at an IV site while receiving antibiotics. The nurse technician should:",
+    options: [
+      { text: "Stop infusion and report to nurse", tag: "SCFHS" },
+      { text: "Increase infusion rate", tag: "NCLEX" },
+      { text: "Apply heat and continue infusion", tag: "STR" },
+      { text: "Document and ignore", tag: "SAFE_DELAY" }
+    ],
+    correctTag: "SCFHS",
+    mechanism: "iv.phlebitis"
+  },
+  {
+    q: "When assisting a fall-risk patient with ambulation, the safest technique is to:",
+    options: [
+      { text: "Use a gait belt and walk slightly behind patient", tag: "SCFHS" },
+      { text: "Hold patient’s forearm only", tag: "NCLEX" },
+      { text: "Allow patient to walk independently", tag: "STR" },
+      { text: "Walk in front while patient holds your shoulder", tag: "SAFE_DELAY" }
+    ],
+    correctTag: "SCFHS",
+    mechanism: "safety.ambulation"
+  },
+  {
+    q: "A confused patient repeatedly removes their oxygen cannula. The safest intervention is:",
+    options: [
+      { text: "Apply soft mitts and continue monitoring", tag: "SCFHS" },
+      { text: "Restrain the patient’s arms immediately", tag: "STR" },
+      { text: "Remove oxygen and let patient rest", tag: "SAFE_DELAY" },
+      { text: "Put patient alone in a quiet room", tag: "NCLEX" }
+    ],
+    correctTag: "SCFHS",
+    mechanism: "safety.oxygen"
+  },
+  {
+    q: "A patient shows Kussmaul respirations. The nurse technician should recognize this as a sign of:",
+    options: [
+      { text: "Metabolic acidosis", tag: "SCFHS" },
+      { text: "Heart failure", tag: "NCLEX" },
+      { text: "Hypovolemia", tag: "STR" },
+      { text: "Respiratory infection", tag: "SAFE_DELAY" }
+    ],
+    correctTag: "SCFHS",
+    mechanism: "respiration.kussmaul"
+  },
+  {
+    q: "A patient with shortness of breath and chest tightness suddenly develops cyanosis. First action:",
+    options: [
+      { text: "Call code blue and provide oxygen", tag: "SCFHS" },
+      { text: "Document the event", tag: "SAFE_DELAY" },
+      { text: "Wait 5 minutes and reassess", tag: "NCLEX" },
+      { text: "Elevate head of bed only", tag: "STR" }
+    ],
+    correctTag: "SCFHS",
+    mechanism: "respiration.acuteDistress"
+  },
+  {
+    q: "A patient on isolation coughs into the air repeatedly. Nurse technician must:",
+    options: [
+      { text: "Ensure proper mask and hand hygiene", tag: "SCFHS" },
+      { text: "Tell patient it’s not important", tag: "STR" },
+      { text: "Ignore if symptoms mild", tag: "SAFE_DELAY" },
+      { text: "Move patient to hallway", tag: "NCLEX" }
+    ],
+    correctTag: "SCFHS",
+    mechanism: "infection.isolation"
+  },
+  
 };
 
 // ================================
