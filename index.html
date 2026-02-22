@@ -4,99 +4,43 @@
 <meta charset="UTF-8">
 <title>SCFHS Classroom Rationale Engine</title>
 <style>
-body {
-  font-family: Arial, sans-serif;
-  background:#f4f6f8;
-  margin:0; padding:0;
-}
-.container {
-  max-width:1000px;
-  margin:auto;
-  background:#fff;
-  padding:25px;
-  border-radius:8px;
-  box-shadow:0 0 10px rgba(0,0,0,0.1);
-}
-h2 { text-align:center; }
-.option {
-  margin:10px 0;
-  padding:12px;
-  border:1px solid #ccc;
-  border-radius:6px;
-  cursor:pointer;
-  transition: 0.2s;
-}
+body { font-family: Arial, sans-serif; background:#f4f6f8; margin:0; padding:0; }
+.container { max-width:1000px; margin:auto; background:#fff; padding:25px; border-radius:8px; box-shadow:0 0 10px rgba(0,0,0,0.1); }
+h2 { text-align:center; margin-bottom:20px; }
+.option { margin:10px 0; padding:12px; border:1px solid #ccc; border-radius:6px; cursor:pointer; transition:0.2s; }
 .option:hover { background:#f0f8ff; }
 .correct { background:#d4edda; border-color:#28a745; }
 .incorrect { background:#f8d7da; border-color:#dc3545; }
-button {
-  margin-top:15px;
-  padding:10px 20px;
-  font-size:16px;
-}
+button { margin-top:15px; padding:10px 20px; font-size:16px; }
 .hidden { display:none; }
 
-.review {
-  margin-top:20px;
-  padding:15px;
-  background:#f9fafb;
-  border-left:5px solid #007bff;
-}
+.review { margin-top:20px; padding:15px; background:#f9fafb; border-left:5px solid #007bff; }
 
-.tag {
-  font-size:12px;
-  padding:2px 6px;
-  border-radius:4px;
-  margin-left:6px;
-}
+.tag { font-size:12px; padding:2px 6px; border-radius:4px; margin-left:6px; }
 .SCFHS { background:#d4edda; }
 .NCLEX { background:#cce5ff; }
 .STR { background:#fff3cd; }
 .SAFE_DELAY { background:#e2e3e5; }
 
-.expand {
-  margin-top:15px;
-  background:#eef5ff;
-  padding:12px;
-  border-radius:6px;
-}
-.expand pre {
-  background:#fff;
-  padding:10px;
-  border:1px dashed #007bff;
-  white-space:pre-wrap;
-}
+.expand { margin-top:15px; background:#eef5ff; padding:12px; border-radius:6px; }
+.expand pre { background:#fff; padding:10px; border:1px dashed #007bff; white-space:pre-wrap; }
 .header { font-weight:bold; margin-top:10px; }
 
-.progress-container {
-  width: 100%;
-  background: #e2e3e5;
-  border-radius: 5px;
-  overflow: hidden;
-  margin-bottom:20px;
-}
-.progress-bar {
-  height: 20px;
-  width: 0%;
-  background: #007bff;
-  text-align:center;
-  color:#fff;
-  line-height:20px;
-  transition:0.3s;
-}
+.progress-container { width:100%; background:#e2e3e5; border-radius:5px; overflow:hidden; margin-bottom:20px; }
+.progress-bar { height:20px; width:0%; background:#007bff; text-align:center; color:#fff; line-height:20px; transition:0.3s; }
 
-.jump-container {
-  margin-bottom:20px;
-}
-.jump-container input {
-  width:60px; padding:6px; margin-right:10px;
-}
+.jump-container { margin-bottom:20px; }
+.jump-container input { width:60px; padding:6px; margin-right:10px; }
 </style>
 </head>
 <body>
 
 <div class="container">
 <h2>SCFHS Classroom Rationale Engine</h2>
+
+<div id="startDiv">
+  <button id="startBtn">Start Quiz</button>
+</div>
 
 <div class="jump-container hidden" id="jumpDiv">
   Jump to question: 
@@ -110,8 +54,6 @@ button {
 
 <div id="quiz" class="hidden"></div>
 <div id="review" class="review hidden"></div>
-
-<button id="startBtn" onclick="startQuiz()">Start Quiz</button>
 <button onclick="nextQuestion()" id="nextBtn" class="hidden">Next Question</button>
 </div>
 
@@ -131,7 +73,6 @@ const questions = [
     correctTag: "SCFHS",
     mechanism: "heatTransfer.conduction"
   },
-
   {
     q: "A 68-year-old postoperative patient becomes restless with BP 84/50, HR 128. What is the priority action?",
     options: [
@@ -143,7 +84,7 @@ const questions = [
     correctTag: "SCFHS",
     mechanism: "shock.hypovolemic"
   }
-   {
+  {
   q: "When the nurse put the baby with high temperature in to cold water the baby will lose temperature through?",
   options: [
     { text: "Evaporation", tag: "NCLEX" },
@@ -2073,7 +2014,7 @@ const questions = [
 ];
 
 // ================================
-// CENTRAL RATIONALE LIBRARY
+// RATIONALE LIBRARY
 // ================================
 const rationaleLibrary = {
   heatTransfer: {
@@ -2112,12 +2053,12 @@ let index = 0;
 // ================================
 // START QUIZ
 // ================================
-function startQuiz() {
-  document.getElementById("startBtn").classList.add("hidden");
+document.getElementById("startBtn").addEventListener("click", function(){
+  document.getElementById("startDiv").classList.add("hidden");
   document.getElementById("quiz").classList.remove("hidden");
   document.getElementById("jumpDiv").classList.remove("hidden");
   renderQuestion();
-}
+});
 
 // ================================
 // RENDER QUESTION
