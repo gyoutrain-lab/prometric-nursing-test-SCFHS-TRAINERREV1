@@ -2,12 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>SCFHS Auto Rationale Engine</title>
+<title>SCFHS Classroom Rationale Engine</title>
 <style>
 body {
   font-family: Arial, sans-serif;
   background:#f4f6f8;
-  padding:20px;
+  margin:0;
+  padding:0;
 }
 .container {
   max-width:1000px;
@@ -17,12 +18,18 @@ body {
   border-radius:8px;
   box-shadow:0 0 10px rgba(0,0,0,0.1);
 }
+h2 { text-align:center; }
 .option {
   margin:10px 0;
-  padding:10px;
+  padding:12px;
   border:1px solid #ccc;
   border-radius:6px;
+  cursor:pointer;
+  transition: 0.2s;
 }
+.option:hover { background:#f0f8ff; }
+.correct { background:#d4edda; border-color:#28a745; }
+.incorrect { background:#f8d7da; border-color:#dc3545; }
 button {
   margin-top:15px;
   padding:10px 20px;
@@ -60,30 +67,44 @@ button {
   border:1px dashed #007bff;
   white-space:pre-wrap;
 }
-.header {
-  font-weight:bold;
-  margin-top:10px;
+.header { font-weight:bold; margin-top:10px; }
+
+.progress-container {
+  width: 100%;
+  background: #e2e3e5;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom:20px;
+}
+.progress-bar {
+  height: 20px;
+  width: 0%;
+  background: #007bff;
+  text-align:center;
+  color:#fff;
+  line-height:20px;
+  transition:0.3s;
 }
 </style>
 </head>
 <body>
 
 <div class="container">
+<h2>SCFHS Classroom Rationale Engine</h2>
 
-<h2>SCFHS Pathophysiologic Rationale Engine</h2>
+<div class="progress-container">
+  <div class="progress-bar" id="progressBar">0%</div>
+</div>
 
 <div id="quiz"></div>
-
-<button onclick="submitAnswer()">Submit</button>
-<button onclick="nextQuestion()" id="nextBtn" class="hidden">Next</button>
-
 <div id="review" class="review hidden"></div>
 
+<button onclick="nextQuestion()" id="nextBtn" class="hidden">Next Question</button>
 </div>
 
 <script>
 // ================================
-// QUESTION BANK — INJECT YOUR QUESTIONS HERE
+// QUESTION BANK
 // ================================
 const questions = [
   {
@@ -2069,62 +2090,62 @@ let index = 0;
 // ================================
 function renderQuestion() {
   const q = questions[index];
+  const quizDiv = document.getElementById("quiz");
   document.getElementById("review").classList.add("hidden");
   document.getElementById("nextBtn").classList.add("hidden");
 
-  document.getElementById("quiz").innerHTML = `
-    <p><b>Question ${index + 1}:</b><br>${q.q}</p>
-    ${q.options.map((o,i)=>`
-      <div class="option">
-        <input type="radio" name="ans" value="${o.tag}">
-        ${String.fromCharCode(65+i)}. ${o.text}
-        <span class="tag ${o.tag}">${o.tag}</span>
-      </div>
-    `).join("")}
-  `;
+  // Render question
+  quizDiv.innerHTML = `<p><b>Question ${index+1}:</b><br>${q.q}</p>`;
+
+  q.options.forEach((o,i)=>{
+    const div = document.createElement("div");
+    div.classList.add("option");
+    div.innerHTML = `${String.fromCharCode(65+i)}. ${o.text} <span class="tag ${o.tag}">${o.tag}</span>`;
+    div.onclick = () => selectAnswer(o.tag, div);
+    quizDiv.appendChild(div);
+  });
+
+  updateProgress();
 }
 
 // ================================
-// SUBMIT ANSWER
+// HANDLE SELECTION
 // ================================
-function submitAnswer() {
-  const selected = document.querySelector('input[name="ans"]:checked');
-  if (!selected) return alert("Select an answer.");
-
+function selectAnswer(tag, div) {
   const q = questions[index];
   const review = document.getElementById("review");
   review.classList.remove("hidden");
 
-  const [group, key] = q.mechanism.split(".");
+  const [group,key] = q.mechanism.split(".");
   const mech = rationaleLibrary[group][key];
 
-  let html = `
-  <div class="header">✅ Correct Rationale</div>
-  ${mech.correct}
+  const optionsDivs = document.querySelectorAll(".option");
+  optionsDivs.forEach(d=>{
+    d.style.pointerEvents="none"; // prevent multiple clicks
+  });
 
-  <div class="header">❌ Option-by-Option Analysis</div>
-  `;
+  // Highlight correct/incorrect
+  optionsDivs.forEach(d=>{
+    if(d.innerHTML.includes(q.correctTag)) d.classList.add("correct");
+    else d.classList.add("incorrect");
+  });
 
-  q.options.forEach(o => {
-    if (o.tag === q.correctTag) {
+  // Build review content
+  let html = `<div class="header">✅ Correct Rationale</div>${mech.correct}`;
+  html += `<div class="header">❌ Option Analysis</div>`;
+  q.options.forEach(o=>{
+    if(o.tag === q.correctTag){
       html += `<div><b>${o.text}</b> (${o.tag}) — Correct</div>`;
     } else {
       html += `<div><b>${o.text}</b> (${o.tag}) — ${mech.distractors[o.tag]}</div>`;
     }
   });
 
-  html += `
-  <div class="expand">
-    <div class="header">Core Principle (Exam Language)</div>
-    <pre>${mech.exam}</pre>
-
-    <div class="header">Pathophysiologic Chain</div>
-    <pre>${mech.patho}</pre>
-
-    <div class="header">Intuitive Clinical Mapping</div>
-    <pre>${mech.intuitive}</pre>
-  </div>
-  `;
+  html += `<div class="expand">
+  <div class="header">Core Principle (Exam Language)</div><pre>${mech.exam}</pre>
+  <div class="header">Pathophysiologic Chain</div><pre>${mech.patho}</pre>
+  <div class="header">Intuitive Clinical Mapping</div><pre>${mech.intuitive}</pre>
+  </div>`;
 
   review.innerHTML = html;
   document.getElementById("nextBtn").classList.remove("hidden");
@@ -2135,13 +2156,23 @@ function submitAnswer() {
 // ================================
 function nextQuestion() {
   index++;
-  if (index >= questions.length) {
-    document.getElementById("quiz").innerHTML = "<h3>End of Review</h3>";
+  if(index >= questions.length){
+    document.getElementById("quiz").innerHTML="<h3>End of Review</h3>";
     document.getElementById("review").classList.add("hidden");
     document.getElementById("nextBtn").classList.add("hidden");
     return;
   }
   renderQuestion();
+}
+
+// ================================
+// PROGRESS BAR
+// ================================
+function updateProgress(){
+  const bar = document.getElementById("progressBar");
+  const percent = Math.round(((index)/questions.length)*100);
+  bar.style.width = percent+"%";
+  bar.innerText = percent+"%";
 }
 
 // INIT
