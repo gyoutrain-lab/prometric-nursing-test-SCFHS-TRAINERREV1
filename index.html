@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>SCFHS Hybrid Rationale Engine (Demo)</title>
+<title>SCFHS Generic Rationale Machine</title>
 
 <style>
 body {
@@ -31,28 +31,34 @@ button {
 }
 .hidden { display:none; }
 
-.rationale {
+.review {
   margin-top:20px;
   padding:15px;
   background:#f9fafb;
   border-left:5px solid #007bff;
 }
 
-.trap {
-  margin-top:8px;
-  padding:8px;
-  border-radius:6px;
-  font-size:14px;
+.tag {
+  font-size:12px;
+  padding:2px 6px;
+  border-radius:4px;
+  margin-left:6px;
 }
-.trap.nclex { background:#eef5ff; border-left:4px solid #0d6efd; }
-.trap.str { background:#fff7e6; border-left:4px solid #f0ad4e; }
-.trap.danger { background:#fbeaea; border-left:4px solid #d9534f; }
+.SCFHS { background:#d4edda; }
+.NCLEX { background:#cce5ff; }
+.STR { background:#fff3cd; }
+.SAFE_DELAY { background:#e2e3e5; }
 
-.patho {
-  margin-top:15px;
+.expand {
+  margin-top:10px;
   background:#eef5ff;
   padding:10px;
-  border-left:4px solid #007bff;
+  border-radius:6px;
+}
+.expand pre {
+  background:#fff;
+  padding:10px;
+  border:1px dashed #007bff;
 }
 </style>
 </head>
@@ -60,129 +66,152 @@ button {
 <body>
 <div class="container">
 
-<h2>SCFHS Level-4 Hard — Hybrid Engine Demo</h2>
+<h2>SCFHS Pathophysiologic Rationale Machine</h2>
 
-<p><b>Question:</b><br>
-A 68-year-old postoperative patient becomes restless.  
-BP 84/50, HR 128, RR 30, SpO₂ 91%.  
-Urine output is 20 mL/hr.<br><br>
-What is the <b>PRIORITY</b> nursing action?
-</p>
-
-<div class="option">
-  <input type="radio" name="q1" value="A"> A. Start isotonic IV fluids
-</div>
-<div class="option">
-  <input type="radio" name="q1" value="B"> B. Administer IV antibiotics
-</div>
-<div class="option">
-  <input type="radio" name="q1" value="C"> C. Give furosemide
-</div>
-<div class="option">
-  <input type="radio" name="q1" value="D"> D. Obtain blood cultures
-</div>
+<div id="quiz"></div>
 
 <button onclick="submitAnswer()">Submit</button>
+<button onclick="nextQuestion()" id="nextBtn" class="hidden">Next</button>
 
-<div id="output" class="rationale hidden"></div>
+<div id="review" class="review hidden"></div>
 
 </div>
 
 <script>
-/* ===============================
-   LAYER 1: RULE ENGINE (LOCKED)
-   =============================== */
+// ===================================
+// QUESTION BANK (INJECT ANY QUESTIONS)
+// ===================================
+const questions = [
+  {
+    q: "When a nurse places a febrile infant into cold water as an emergency intervention, through which mechanism will the infant primarily lose body heat?",
+    options: [
+      { text: "Evaporation", tag: "SAFE_DELAY" },
+      { text: "Convection", tag: "NCLEX" },
+      { text: "Conduction", tag: "SCFHS" },
+      { text: "Radiation", tag: "STR" }
+    ],
+    correctTag: "SCFHS",
+    rationale: {
+      correct: "Direct contact between the infant’s body and cold water allows thermal energy to transfer from the warmer skin to the cooler medium, which defines conduction.",
+      distractors: {
+        SAFE_DELAY: "Evaporation requires liquid to change into vapor, which does not occur during immersion.",
+        NCLEX: "Convection involves heat transfer through movement of air or fluid, not direct contact.",
+        STR: "Radiation is heat transfer without physical contact."
+      },
+      mechanism: "heatTransfer"
+    }
+  }
+];
 
-const ruleEngine = {
-  shockType: "Hypovolemic Shock",
-  correctAnswer: "A",
-  priorityAction: "Start isotonic IV fluids",
-  traps: {
-    B: { type: "nclex", text: "Correct treatment, wrong timing. Antibiotics do not correct hypotension." },
-    C: { type: "danger", text: "Diuretics worsen intravascular volume depletion." },
-    D: { type: "str", text: "Diagnostic action delays life-saving intervention." }
+// ===================================
+// MECHANISM EXPLANATION ENGINE
+// ===================================
+const mechanismLibrary = {
+  heatTransfer: {
+    exam: `
+Conduction → direct physical contact
+Convection → heat loss via moving air or fluid
+Radiation → heat transfer without contact
+Evaporation → liquid to vapor
+    `,
+    patho: `
+During immersion, heat moves directly from the warmer skin to the colder water
+surface. This direct energy transfer makes conduction the dominant mechanism,
+while convection, radiation, and evaporation play minimal roles.
+    `,
+    intuitive: `
+Touching ice = conduction
+Cold wind = convection
+Sun heat = radiation
+Sweat drying = evaporation
+    `
   }
 };
 
-/* ===============================
-   LAYER 2: SIMULATED LLM OUTPUT
-   (replace later with API call)
-   =============================== */
+// ===================================
+// ENGINE STATE
+// ===================================
+let index = 0;
 
-let llmRationale = `
-Acute postoperative intravascular volume loss reduces venous return to the heart,
-leading to decreased preload and stroke volume. This results in reduced cardiac output
-and mean arterial pressure, causing hypotension and oliguria. Rapid isotonic fluid
-administration restores circulating volume and tissue perfusion.
-`;
+// ===================================
+// RENDER QUESTION
+// ===================================
+function renderQuestion() {
+  const q = questions[index];
+  document.getElementById("review").classList.add("hidden");
+  document.getElementById("nextBtn").classList.add("hidden");
 
-/* ===============================
-   FALLBACK TEMPLATE (SAFE)
-   =============================== */
-
-const fallbackRationale = `
-Loss of circulating volume decreases preload and cardiac output, resulting in
-hypotension and inadequate organ perfusion. Isotonic IV fluids are required to
-restore intravascular volume and maintain tissue perfusion.
-`;
-
-/* ===============================
-   VALIDATION FUNCTION
-   =============================== */
-
-function validateLLM(text) {
-  if (!text) return false;
-  if (text.length < 200) return false;        // too generic
-  if (text.includes("always") || text.includes("in general")) return false;
-  return true;
+  document.getElementById("quiz").innerHTML = `
+    <p><b>Question ${index + 1}:</b><br>${q.q}</p>
+    ${q.options.map((o,i)=>`
+      <div class="option">
+        <input type="radio" name="ans" value="${o.tag}">
+        ${String.fromCharCode(65+i)}. ${o.text}
+        <span class="tag ${o.tag}">${o.tag}</span>
+      </div>
+    `).join("")}
+  `;
 }
 
-/* ===============================
-   SUBMIT HANDLER
-   =============================== */
-
+// ===================================
+// SUBMIT ANSWER
+// ===================================
 function submitAnswer() {
-  const selected = document.querySelector('input[name="q1"]:checked');
-  if (!selected) {
-    alert("Select an answer first");
-    return;
-  }
+  const selected = document.querySelector('input[name="ans"]:checked');
+  if (!selected) return alert("Select an answer.");
 
-  const output = document.getElementById("output");
-  output.classList.remove("hidden");
-
-  let rationaleText = validateLLM(llmRationale)
-    ? llmRationale
-    : fallbackRationale;
+  const q = questions[index];
+  const review = document.getElementById("review");
+  review.classList.remove("hidden");
 
   let html = `
-  <b>🧠 Auto-Detected Physiology:</b> ${ruleEngine.shockType}<br><br>
-
-  <b>✅ Correct Answer:</b> ${ruleEngine.priorityAction}<br><br>
-
-  <b>🧬 Pathophysiologic Rationale:</b><br>
-  ${rationaleText}
-  <br><br>
-
-  <b>⚠️ Exam Traps Identified:</b>
+  <b>Correct Rationale:</b><br>
+  ${q.rationale.correct}<br><br>
+  <b>Option Analysis:</b><br>
   `;
 
-  for (let key in ruleEngine.traps) {
-    let t = ruleEngine.traps[key];
-    html += `<div class="trap ${t.type}">
-      <b>Option ${key}</b>: ${t.text}
-    </div>`;
+  q.options.forEach(o=>{
+    if (o.tag === q.correctTag) {
+      html += `<div><b>${o.text}</b> (${o.tag}) — ✅ Correct</div>`;
+    } else {
+      html += `<div><b>${o.text}</b> (${o.tag}) — ❌ ${q.rationale.distractors[o.tag]}</div>`;
+    }
+  });
+
+  const mech = mechanismLibrary[q.rationale.mechanism];
+  if (mech) {
+    html += `
+    <div class="expand">
+      <b>Core Principle (Exam):</b>
+      <pre>${mech.exam}</pre>
+      <b>Pathophysiologic Elaboration:</b>
+      <pre>${mech.patho}</pre>
+      <b>Intuitive Explanation:</b>
+      <pre>${mech.intuitive}</pre>
+    </div>
+    `;
   }
 
-  html += `
-  <div class="patho">
-    <b>SCFHS Logic:</b><br>
-    Hypovolemia → ↓ preload → ↓ cardiac output → ↓ MAP → organ hypoperfusion
-  </div>
-  `;
-
-  output.innerHTML = html;
+  review.innerHTML = html;
+  document.getElementById("nextBtn").classList.remove("hidden");
 }
+
+// ===================================
+// NEXT QUESTION
+// ===================================
+function nextQuestion() {
+  index++;
+  if (index >= questions.length) {
+    document.getElementById("quiz").innerHTML = "<h3>End of Review</h3>";
+    document.getElementById("review").classList.add("hidden");
+    document.getElementById("nextBtn").classList.add("hidden");
+    return;
+  }
+  renderQuestion();
+}
+
+// INIT
+renderQuestion();
 </script>
 
 </body>
