@@ -744,7 +744,335 @@ const questions = [
   correctTag: "SCFHS",
   mechanism: "er.respiratoryArrest"
 },
-
+ q: "While transferring a patient from bed to wheelchair, the patient suddenly becomes dizzy. What should the nurse technician do FIRST?",
+  options: [
+    { text: "Lower the patient back to bed safely", tag: "SCFHS" },
+    { text: "Call for help immediately", tag: "NCLEX" },
+    { text: "Encourage the patient to continue transfer", tag: "STR" },
+    { text: "Document the incident later", tag: "SAFE_DELAY" }
+  ],
+correctTag: "SCFHS",
+  mechanism: "mobility.dizziness"
+},
+{
+  q: "A patient with diabetes asks the nurse technician to check blood glucose because they feel shaky. What is the correct action?",
+  options: [
+    { text: "Inform the nurse immediately", tag: "SCFHS" },
+    { text: "Provide juice without checking", tag: "STR" },
+    { text: "Tell the patient to rest", tag: "SAFE_DELAY" },
+    { text: "Reassure and recheck later", tag: "NCLEX" }
+  ],
+  correctTag: "SCFHS",
+  mechanism: "endocrine.hypoglycemiaRisk"
+},
+{
+  q: "The nurse technician notices redness on a patient’s sacral area during bathing. What is the BEST action?",
+  options: [
+    { text: "Report findings to the nurse", tag: "SCFHS" },
+    { text: "Apply powder to the area", tag: "STR" },
+    { text: "Ignore unless skin is broken", tag: "SAFE_DELAY" },
+    { text: "Massage the area gently", tag: "NCLEX" }
+  ],
+  correctTag: "SCFHS",
+  mechanism: "skin.pressureInjury"
+},
+{
+  q: "A patient receiving IV fluids complains of pain at the IV site. The area appears swollen. What should the nurse technician do?",
+  options: [
+    { text: "Stop infusion and notify nurse", tag: "SCFHS" },
+    { text: "Slow the infusion rate", tag: "NCLEX" },
+    { text: "Apply warm compress", tag: "STR" },
+    { text: "Document and reassess later", tag: "SAFE_DELAY" }
+  ],
+  correctTag: "SCFHS",
+  mechanism: "iv.infiltration"
+},
+{
+  q: "A confused patient is attempting to climb out of bed. What is the nurse technician’s PRIORITY action?",
+  options: [
+    { text: "Stay with patient and call the nurse", tag: "SCFHS" },
+    { text: "Apply restraints immediately", tag: "STR" },
+    { text: "Raise all side rails and leave", tag: "NCLEX" },
+    { text: "Document behavior", tag: "SAFE_DELAY" }
+  ],
+  correctTag: "SCFHS",
+  mechanism: "safety.fallRisk"
+},
+{
+  q: "A patient’s urinary catheter bag is noted to be overfilled. What should the nurse technician do?",
+  options: [
+    { text: "Empty the bag using aseptic technique", tag: "SCFHS" },
+    { text: "Clamp the catheter tubing", tag: "STR" },
+    { text: "Wait until the nurse arrives", tag: "SAFE_DELAY" },
+    { text: "Disconnect tubing briefly", tag: "NCLEX" }
+  ],
+  correctTag: "SCFHS",
+  mechanism: "urinary.catheterCare"
+},
+{
+  q: "A patient complains of shortness of breath while lying flat. What should the nurse technician do FIRST?",
+  options: [
+    { text: "Elevate the head of the bed", tag: "SCFHS" },
+    { text: "Apply oxygen independently", tag: "STR" },
+    { text: "Notify the nurse immediately", tag: "NCLEX" },
+    { text: "Reassure the patient", tag: "SAFE_DELAY" }
+  ],
+  correctTag: "SCFHS",
+  mechanism: "respiration.orthopnea"
+},
+{
+  q: "During feeding, a patient begins coughing and choking. What is the nurse technician’s immediate action?",
+  options: [
+    { text: "Stop feeding and position patient upright", tag: "SCFHS" },
+    { text: "Encourage patient to continue eating", tag: "STR" },
+    { text: "Offer water to clear throat", tag: "NCLEX" },
+    { text: "Document and monitor", tag: "SAFE_DELAY" }
+  ],
+  correctTag: "SCFHS",
+  mechanism: "nutrition.aspirationRisk"
+},
+{
+  q: "A patient reports pain rated 8/10. What is the nurse technician’s role?",
+  options: [
+    { text: "Report pain level to the nurse", tag: "SCFHS" },
+    { text: "Administer PRN analgesic", tag: "STR" },
+    { text: "Reposition and reassess later", tag: "NCLEX" },
+    { text: "Tell patient pain is expected", tag: "SAFE_DELAY" }
+  ],
+  correctTag: "SCFHS",
+  mechanism: "pain.reporting"
+},
+{
+  q: "A patient is scheduled for surgery and asks about the procedure. What should the nurse technician do?",
+  options: [
+    { text: "Refer questions to the nurse", tag: "SCFHS" },
+    { text: "Explain the surgery briefly", tag: "STR" },
+    { text: "Provide reassurance only", tag: "NCLEX" },
+    { text: "Avoid answering and leave", tag: "SAFE_DELAY" }
+  ],
+  correctTag: "SCFHS",
+  mechanism: "legal.scopeOfPractice"
+},
+{
+  q: "A patient suddenly becomes diaphoretic and weak while ambulating. What is the FIRST action?",
+  options: [
+    { text: "Assist patient to sit or lie down", tag: "SCFHS" },
+    { text: "Call the nurse immediately", tag: "NCLEX" },
+    { text: "Encourage patient to continue walking", tag: "STR" },
+    { text: "Document incident later", tag: "SAFE_DELAY" }
+  ],
+  correctTag: "SCFHS",
+  mechanism: "mobility.syncopeRisk"
+},
+{
+  q: "The nurse technician notes a patient’s oxygen saturation dropped from 96% to 88%. What is the correct action?",
+  options: [
+    { text: "Report immediately to the nurse", tag: "SCFHS" },
+    { text: "Increase oxygen flow rate", tag: "STR" },
+    { text: "Recheck in 30 minutes", tag: "SAFE_DELAY" },
+    { text: "Document only", tag: "NCLEX" }
+  ],
+  correctTag: "SCFHS",
+  mechanism: "respiration.hypoxia"
+},
+{
+  q: "A patient refuses a bath. What is the appropriate nurse technician response?",
+  options: [
+    { text: "Respect refusal and inform nurse", tag: "SCFHS" },
+    { text: "Insist on completing care", tag: "STR" },
+    { text: "Ignore patient and leave", tag: "SAFE_DELAY" },
+    { text: "Document refusal only", tag: "NCLEX" }
+  ],
+  correctTag: "SCFHS",
+  mechanism: "ethics.patientRights"
+},
+{
+  q: "A patient has not voided for 8 hours. What should the nurse technician do?",
+  options: [
+    { text: "Report the finding to the nurse", tag: "SCFHS" },
+    { text: "Encourage fluids without reporting", tag: "NCLEX" },
+    { text: "Insert catheter", tag: "STR" },
+    { text: "Wait until next shift", tag: "SAFE_DELAY" }
+  ],
+  correctTag: "SCFHS",
+  mechanism: "urinary.retention"
+},
+{
+  q: "While making rounds, the nurse technician smells smoke in a patient room. What is the FIRST action?",
+  options: [
+    { text: "Ensure patient safety and call for help", tag: "SCFHS" },
+    { text: "Investigate source alone", tag: "NCLEX" },
+    { text: "Ignore if no flames seen", tag: "SAFE_DELAY" },
+    { text: "Open windows immediately", tag: "STR" }
+  ],
+  correctTag: "SCFHS",
+  mechanism: "emergency.fireSafety"
+},
+{
+  q: "A patient in the ICU suddenly becomes unresponsive. What is the FIRST action of the nurse technician?",
+  options: [
+    { text: "Call for help and activate emergency response", tag: "SCFHS" },
+    { text: "Check vital signs", tag: "NCLEX" },
+    { text: "Begin CPR independently", tag: "STR" },
+    { text: "Document the event", tag: "SAFE_DELAY" }
+  ],
+  correctTag: "SCFHS",
+  mechanism: "icu.cardiacArrest"
+},
+{
+  q: "A ventilated patient’s alarm is sounding and the patient appears distressed. What should the nurse technician do FIRST?",
+  options: [
+    { text: "Check patient and tubing, then call nurse", tag: "SCFHS" },
+    { text: "Silence the alarm", tag: "STR" },
+    { text: "Increase oxygen flow", tag: "NCLEX" },
+    { text: "Wait for respiratory therapist", tag: "SAFE_DELAY" }
+  ],
+  correctTag: "SCFHS",
+  mechanism: "icu.ventilatorAlarm"
+},
+{
+  q: "A patient receiving blood transfusion develops chills and fever. What is the PRIORITY action?",
+  options: [
+    { text: "Stop transfusion and notify nurse immediately", tag: "SCFHS" },
+    { text: "Slow the transfusion rate", tag: "NCLEX" },
+    { text: "Provide warm blankets", tag: "STR" },
+    { text: "Document reaction", tag: "SAFE_DELAY" }
+  ],
+  correctTag: "SCFHS",
+  mechanism: "icu.transfusionReaction"
+},
+{
+  q: "A post-operative patient suddenly complains of chest pain and shortness of breath. What should the nurse technician do FIRST?",
+  options: [
+    { text: "Call for immediate medical assistance", tag: "SCFHS" },
+    { text: "Position patient upright", tag: "NCLEX" },
+    { text: "Apply oxygen without order", tag: "STR" },
+    { text: "Reassure the patient", tag: "SAFE_DELAY" }
+  ],
+  correctTag: "SCFHS",
+  mechanism: "er.pulmonaryEmbolism"
+},
+{
+  q: "A patient in restraints is found cyanotic and not breathing. What is the FIRST action?",
+  options: [
+    { text: "Remove restraints and call for help", tag: "SCFHS" },
+    { text: "Check pulse", tag: "NCLEX" },
+    { text: "Document incident", tag: "SAFE_DELAY" },
+    { text: "Wait for the nurse", tag: "STR" }
+  ],
+  correctTag: "SCFHS",
+  mechanism: "icu.restraintEmergency"
+},
+{
+  q: "During a mass casualty incident, which patient should be attended to FIRST?",
+  options: [
+    { text: "Patient with airway obstruction", tag: "SCFHS" },
+    { text: "Patient with open fracture", tag: "NCLEX" },
+    { text: "Patient with minor burns", tag: "STR" },
+    { text: "Patient walking and crying", tag: "SAFE_DELAY" }
+  ],
+  correctTag: "SCFHS",
+  mechanism: "disaster.triage"
+},
+{
+  q: "A patient suddenly vomits and becomes unconscious. What is the FIRST action?",
+  options: [
+    { text: "Turn patient to side to protect airway", tag: "SCFHS" },
+    { text: "Call the nurse", tag: "NCLEX" },
+    { text: "Insert oral airway", tag: "STR" },
+    { text: "Document event", tag: "SAFE_DELAY" }
+  ],
+  correctTag: "SCFHS",
+  mechanism: "er.airwayProtection"
+},
+{
+  q: "An ICU patient’s blood pressure drops rapidly. What should the nurse technician do?",
+  options: [
+    { text: "Notify nurse immediately", tag: "SCFHS" },
+    { text: "Recheck BP in 15 minutes", tag: "SAFE_DELAY" },
+    { text: "Increase IV fluids", tag: "STR" },
+    { text: "Document the finding", tag: "NCLEX" }
+  ],
+  correctTag: "SCFHS",
+  mechanism: "icu.hypotension"
+},
+{
+  q: "A patient receiving tube feeding develops sudden coughing and respiratory distress. What is the FIRST action?",
+  options: [
+    { text: "Stop feeding and elevate head of bed", tag: "SCFHS" },
+    { text: "Suction immediately", tag: "NCLEX" },
+    { text: "Notify nurse before action", tag: "SAFE_DELAY" },
+    { text: "Flush feeding tube", tag: "STR" }
+  ],
+  correctTag: "SCFHS",
+  mechanism: "icu.aspiration"
+},
+{
+  q: "A patient collapses in the hallway. What is the nurse technician’s FIRST response?",
+  options: [
+    { text: "Call emergency response and stay with patient", tag: "SCFHS" },
+    { text: "Check blood pressure", tag: "NCLEX" },
+    { text: "Move patient to bed", tag: "STR" },
+    { text: "Document incident", tag: "SAFE_DELAY" }
+  ],
+  correctTag: "SCFHS",
+  mechanism: "er.collapse"
+},
+{
+  q: "A patient suddenly starts seizing. What should the nurse technician do FIRST?",
+  options: [
+    { text: "Protect patient from injury and call for help", tag: "SCFHS" },
+    { text: "Insert object into mouth", tag: "STR" },
+    { text: "Restrain the patient", tag: "NCLEX" },
+    { text: "Document seizure activity", tag: "SAFE_DELAY" }
+  ],
+  correctTag: "SCFHS",
+  mechanism: "neuro.seizure"
+},
+{
+  q: "A fire alarm activates in the ICU. What is the FIRST priority?",
+  options: [
+    { text: "Ensure patient safety and follow fire protocol", tag: "SCFHS" },
+    { text: "Finish current task", tag: "SAFE_DELAY" },
+    { text: "Investigate source alone", tag: "NCLEX" },
+    { text: "Open all windows", tag: "STR" }
+  ],
+  correctTag: "SCFHS",
+  mechanism: "disaster.fire"
+},
+{
+  q: "A patient becomes suddenly aggressive and threatens staff. What is the nurse technician’s priority?",
+  options: [
+    { text: "Ensure safety and call for assistance", tag: "SCFHS" },
+    { text: "Attempt verbal counseling alone", tag: "NCLEX" },
+    { text: "Apply restraints immediately", tag: "STR" },
+    { text: "Document behavior", tag: "SAFE_DELAY" }
+  ],
+  correctTag: "SCFHS",
+  mechanism: "psychiatric.violence"
+},
+{
+  q: "A patient is found on the floor after a loud noise. What is the FIRST action?",
+  options: [
+    { text: "Assess patient and call for help", tag: "SCFHS" },
+    { text: "Help patient back to bed", tag: "STR" },
+    { text: "Ask what happened", tag: "NCLEX" },
+    { text: "Complete incident report", tag: "SAFE_DELAY" }
+  ],
+  correctTag: "SCFHS",
+  mechanism: "safety.fall"
+},
+{
+  q: "A patient suddenly stops breathing while on the ward. What should the nurse technician do FIRST?",
+  options: [
+    { text: "Activate emergency response system", tag: "SCFHS" },
+    { text: "Check oxygen equipment", tag: "NCLEX" },
+    { text: "Begin ventilation without help", tag: "STR" },
+    { text: "Document findings", tag: "SAFE_DELAY" }
+  ],
+  correctTag: "SCFHS",
+  mechanism: "er.respiratoryArrest"
+},
 ];
 
 // ================================
@@ -1178,8 +1506,7 @@ rationaleLibrary.icu = {
     intuitive: "No response = call for help NOW"
     }
   },
-
-  ventilatorAlarm: {
+ventilatorAlarm: {
     correct: "Always assess the patient and equipment first, then notify the nurse to prevent hypoxia or disconnection.",
     distractors: {
       STR: "Silencing alarms without assessment is unsafe.",
@@ -1191,7 +1518,7 @@ rationaleLibrary.icu = {
     intuitive: "Alarm = patient first, machine second"
   }
   },
-  transfusionReaction: {
+transfusionReaction: {
     correct: "Stopping the transfusion immediately prevents further exposure to the triggering blood product.",
     distractors: {
       NCLEX: "Slowing infusion still exposes patient to antigen.",
@@ -1203,335 +1530,7 @@ rationaleLibrary.icu = {
     intuitive: "Bad reaction = STOP the blood"
   } 
   },
-  q: "While transferring a patient from bed to wheelchair, the patient suddenly becomes dizzy. What should the nurse technician do FIRST?",
-  options: [
-    { text: "Lower the patient back to bed safely", tag: "SCFHS" },
-    { text: "Call for help immediately", tag: "NCLEX" },
-    { text: "Encourage the patient to continue transfer", tag: "STR" },
-    { text: "Document the incident later", tag: "SAFE_DELAY" }
-  ],
-  correctTag: "SCFHS",
-  mechanism: "mobility.dizziness"
-},
-{
-  q: "A patient with diabetes asks the nurse technician to check blood glucose because they feel shaky. What is the correct action?",
-  options: [
-    { text: "Inform the nurse immediately", tag: "SCFHS" },
-    { text: "Provide juice without checking", tag: "STR" },
-    { text: "Tell the patient to rest", tag: "SAFE_DELAY" },
-    { text: "Reassure and recheck later", tag: "NCLEX" }
-  ],
-  correctTag: "SCFHS",
-  mechanism: "endocrine.hypoglycemiaRisk"
-},
-{
-  q: "The nurse technician notices redness on a patient’s sacral area during bathing. What is the BEST action?",
-  options: [
-    { text: "Report findings to the nurse", tag: "SCFHS" },
-    { text: "Apply powder to the area", tag: "STR" },
-    { text: "Ignore unless skin is broken", tag: "SAFE_DELAY" },
-    { text: "Massage the area gently", tag: "NCLEX" }
-  ],
-  correctTag: "SCFHS",
-  mechanism: "skin.pressureInjury"
-},
-{
-  q: "A patient receiving IV fluids complains of pain at the IV site. The area appears swollen. What should the nurse technician do?",
-  options: [
-    { text: "Stop infusion and notify nurse", tag: "SCFHS" },
-    { text: "Slow the infusion rate", tag: "NCLEX" },
-    { text: "Apply warm compress", tag: "STR" },
-    { text: "Document and reassess later", tag: "SAFE_DELAY" }
-  ],
-  correctTag: "SCFHS",
-  mechanism: "iv.infiltration"
-},
-{
-  q: "A confused patient is attempting to climb out of bed. What is the nurse technician’s PRIORITY action?",
-  options: [
-    { text: "Stay with patient and call the nurse", tag: "SCFHS" },
-    { text: "Apply restraints immediately", tag: "STR" },
-    { text: "Raise all side rails and leave", tag: "NCLEX" },
-    { text: "Document behavior", tag: "SAFE_DELAY" }
-  ],
-  correctTag: "SCFHS",
-  mechanism: "safety.fallRisk"
-},
-{
-  q: "A patient’s urinary catheter bag is noted to be overfilled. What should the nurse technician do?",
-  options: [
-    { text: "Empty the bag using aseptic technique", tag: "SCFHS" },
-    { text: "Clamp the catheter tubing", tag: "STR" },
-    { text: "Wait until the nurse arrives", tag: "SAFE_DELAY" },
-    { text: "Disconnect tubing briefly", tag: "NCLEX" }
-  ],
-  correctTag: "SCFHS",
-  mechanism: "urinary.catheterCare"
-},
-{
-  q: "A patient complains of shortness of breath while lying flat. What should the nurse technician do FIRST?",
-  options: [
-    { text: "Elevate the head of the bed", tag: "SCFHS" },
-    { text: "Apply oxygen independently", tag: "STR" },
-    { text: "Notify the nurse immediately", tag: "NCLEX" },
-    { text: "Reassure the patient", tag: "SAFE_DELAY" }
-  ],
-  correctTag: "SCFHS",
-  mechanism: "respiration.orthopnea"
-},
-{
-  q: "During feeding, a patient begins coughing and choking. What is the nurse technician’s immediate action?",
-  options: [
-    { text: "Stop feeding and position patient upright", tag: "SCFHS" },
-    { text: "Encourage patient to continue eating", tag: "STR" },
-    { text: "Offer water to clear throat", tag: "NCLEX" },
-    { text: "Document and monitor", tag: "SAFE_DELAY" }
-  ],
-  correctTag: "SCFHS",
-  mechanism: "nutrition.aspirationRisk"
-},
-{
-  q: "A patient reports pain rated 8/10. What is the nurse technician’s role?",
-  options: [
-    { text: "Report pain level to the nurse", tag: "SCFHS" },
-    { text: "Administer PRN analgesic", tag: "STR" },
-    { text: "Reposition and reassess later", tag: "NCLEX" },
-    { text: "Tell patient pain is expected", tag: "SAFE_DELAY" }
-  ],
-  correctTag: "SCFHS",
-  mechanism: "pain.reporting"
-},
-{
-  q: "A patient is scheduled for surgery and asks about the procedure. What should the nurse technician do?",
-  options: [
-    { text: "Refer questions to the nurse", tag: "SCFHS" },
-    { text: "Explain the surgery briefly", tag: "STR" },
-    { text: "Provide reassurance only", tag: "NCLEX" },
-    { text: "Avoid answering and leave", tag: "SAFE_DELAY" }
-  ],
-  correctTag: "SCFHS",
-  mechanism: "legal.scopeOfPractice"
-},
-{
-  q: "A patient suddenly becomes diaphoretic and weak while ambulating. What is the FIRST action?",
-  options: [
-    { text: "Assist patient to sit or lie down", tag: "SCFHS" },
-    { text: "Call the nurse immediately", tag: "NCLEX" },
-    { text: "Encourage patient to continue walking", tag: "STR" },
-    { text: "Document incident later", tag: "SAFE_DELAY" }
-  ],
-  correctTag: "SCFHS",
-  mechanism: "mobility.syncopeRisk"
-},
-{
-  q: "The nurse technician notes a patient’s oxygen saturation dropped from 96% to 88%. What is the correct action?",
-  options: [
-    { text: "Report immediately to the nurse", tag: "SCFHS" },
-    { text: "Increase oxygen flow rate", tag: "STR" },
-    { text: "Recheck in 30 minutes", tag: "SAFE_DELAY" },
-    { text: "Document only", tag: "NCLEX" }
-  ],
-  correctTag: "SCFHS",
-  mechanism: "respiration.hypoxia"
-},
-{
-  q: "A patient refuses a bath. What is the appropriate nurse technician response?",
-  options: [
-    { text: "Respect refusal and inform nurse", tag: "SCFHS" },
-    { text: "Insist on completing care", tag: "STR" },
-    { text: "Ignore patient and leave", tag: "SAFE_DELAY" },
-    { text: "Document refusal only", tag: "NCLEX" }
-  ],
-  correctTag: "SCFHS",
-  mechanism: "ethics.patientRights"
-},
-{
-  q: "A patient has not voided for 8 hours. What should the nurse technician do?",
-  options: [
-    { text: "Report the finding to the nurse", tag: "SCFHS" },
-    { text: "Encourage fluids without reporting", tag: "NCLEX" },
-    { text: "Insert catheter", tag: "STR" },
-    { text: "Wait until next shift", tag: "SAFE_DELAY" }
-  ],
-  correctTag: "SCFHS",
-  mechanism: "urinary.retention"
-},
-{
-  q: "While making rounds, the nurse technician smells smoke in a patient room. What is the FIRST action?",
-  options: [
-    { text: "Ensure patient safety and call for help", tag: "SCFHS" },
-    { text: "Investigate source alone", tag: "NCLEX" },
-    { text: "Ignore if no flames seen", tag: "SAFE_DELAY" },
-    { text: "Open windows immediately", tag: "STR" }
-  ],
-  correctTag: "SCFHS",
-  mechanism: "emergency.fireSafety"
-},
-{
-  q: "A patient in the ICU suddenly becomes unresponsive. What is the FIRST action of the nurse technician?",
-  options: [
-    { text: "Call for help and activate emergency response", tag: "SCFHS" },
-    { text: "Check vital signs", tag: "NCLEX" },
-    { text: "Begin CPR independently", tag: "STR" },
-    { text: "Document the event", tag: "SAFE_DELAY" }
-  ],
-  correctTag: "SCFHS",
-  mechanism: "icu.cardiacArrest"
-},
-{
-  q: "A ventilated patient’s alarm is sounding and the patient appears distressed. What should the nurse technician do FIRST?",
-  options: [
-    { text: "Check patient and tubing, then call nurse", tag: "SCFHS" },
-    { text: "Silence the alarm", tag: "STR" },
-    { text: "Increase oxygen flow", tag: "NCLEX" },
-    { text: "Wait for respiratory therapist", tag: "SAFE_DELAY" }
-  ],
-  correctTag: "SCFHS",
-  mechanism: "icu.ventilatorAlarm"
-},
-{
-  q: "A patient receiving blood transfusion develops chills and fever. What is the PRIORITY action?",
-  options: [
-    { text: "Stop transfusion and notify nurse immediately", tag: "SCFHS" },
-    { text: "Slow the transfusion rate", tag: "NCLEX" },
-    { text: "Provide warm blankets", tag: "STR" },
-    { text: "Document reaction", tag: "SAFE_DELAY" }
-  ],
-  correctTag: "SCFHS",
-  mechanism: "icu.transfusionReaction"
-},
-{
-  q: "A post-operative patient suddenly complains of chest pain and shortness of breath. What should the nurse technician do FIRST?",
-  options: [
-    { text: "Call for immediate medical assistance", tag: "SCFHS" },
-    { text: "Position patient upright", tag: "NCLEX" },
-    { text: "Apply oxygen without order", tag: "STR" },
-    { text: "Reassure the patient", tag: "SAFE_DELAY" }
-  ],
-  correctTag: "SCFHS",
-  mechanism: "er.pulmonaryEmbolism"
-},
-{
-  q: "A patient in restraints is found cyanotic and not breathing. What is the FIRST action?",
-  options: [
-    { text: "Remove restraints and call for help", tag: "SCFHS" },
-    { text: "Check pulse", tag: "NCLEX" },
-    { text: "Document incident", tag: "SAFE_DELAY" },
-    { text: "Wait for the nurse", tag: "STR" }
-  ],
-  correctTag: "SCFHS",
-  mechanism: "icu.restraintEmergency"
-},
-{
-  q: "During a mass casualty incident, which patient should be attended to FIRST?",
-  options: [
-    { text: "Patient with airway obstruction", tag: "SCFHS" },
-    { text: "Patient with open fracture", tag: "NCLEX" },
-    { text: "Patient with minor burns", tag: "STR" },
-    { text: "Patient walking and crying", tag: "SAFE_DELAY" }
-  ],
-  correctTag: "SCFHS",
-  mechanism: "disaster.triage"
-},
-{
-  q: "A patient suddenly vomits and becomes unconscious. What is the FIRST action?",
-  options: [
-    { text: "Turn patient to side to protect airway", tag: "SCFHS" },
-    { text: "Call the nurse", tag: "NCLEX" },
-    { text: "Insert oral airway", tag: "STR" },
-    { text: "Document event", tag: "SAFE_DELAY" }
-  ],
-  correctTag: "SCFHS",
-  mechanism: "er.airwayProtection"
-},
-{
-  q: "An ICU patient’s blood pressure drops rapidly. What should the nurse technician do?",
-  options: [
-    { text: "Notify nurse immediately", tag: "SCFHS" },
-    { text: "Recheck BP in 15 minutes", tag: "SAFE_DELAY" },
-    { text: "Increase IV fluids", tag: "STR" },
-    { text: "Document the finding", tag: "NCLEX" }
-  ],
-  correctTag: "SCFHS",
-  mechanism: "icu.hypotension"
-},
-{
-  q: "A patient receiving tube feeding develops sudden coughing and respiratory distress. What is the FIRST action?",
-  options: [
-    { text: "Stop feeding and elevate head of bed", tag: "SCFHS" },
-    { text: "Suction immediately", tag: "NCLEX" },
-    { text: "Notify nurse before action", tag: "SAFE_DELAY" },
-    { text: "Flush feeding tube", tag: "STR" }
-  ],
-  correctTag: "SCFHS",
-  mechanism: "icu.aspiration"
-},
-{
-  q: "A patient collapses in the hallway. What is the nurse technician’s FIRST response?",
-  options: [
-    { text: "Call emergency response and stay with patient", tag: "SCFHS" },
-    { text: "Check blood pressure", tag: "NCLEX" },
-    { text: "Move patient to bed", tag: "STR" },
-    { text: "Document incident", tag: "SAFE_DELAY" }
-  ],
-  correctTag: "SCFHS",
-  mechanism: "er.collapse"
-},
-{
-  q: "A patient suddenly starts seizing. What should the nurse technician do FIRST?",
-  options: [
-    { text: "Protect patient from injury and call for help", tag: "SCFHS" },
-    { text: "Insert object into mouth", tag: "STR" },
-    { text: "Restrain the patient", tag: "NCLEX" },
-    { text: "Document seizure activity", tag: "SAFE_DELAY" }
-  ],
-  correctTag: "SCFHS",
-  mechanism: "neuro.seizure"
-},
-{
-  q: "A fire alarm activates in the ICU. What is the FIRST priority?",
-  options: [
-    { text: "Ensure patient safety and follow fire protocol", tag: "SCFHS" },
-    { text: "Finish current task", tag: "SAFE_DELAY" },
-    { text: "Investigate source alone", tag: "NCLEX" },
-    { text: "Open all windows", tag: "STR" }
-  ],
-  correctTag: "SCFHS",
-  mechanism: "disaster.fire"
-},
-{
-  q: "A patient becomes suddenly aggressive and threatens staff. What is the nurse technician’s priority?",
-  options: [
-    { text: "Ensure safety and call for assistance", tag: "SCFHS" },
-    { text: "Attempt verbal counseling alone", tag: "NCLEX" },
-    { text: "Apply restraints immediately", tag: "STR" },
-    { text: "Document behavior", tag: "SAFE_DELAY" }
-  ],
-  correctTag: "SCFHS",
-  mechanism: "psychiatric.violence"
-},
-{
-  q: "A patient is found on the floor after a loud noise. What is the FIRST action?",
-  options: [
-    { text: "Assess patient and call for help", tag: "SCFHS" },
-    { text: "Help patient back to bed", tag: "STR" },
-    { text: "Ask what happened", tag: "NCLEX" },
-    { text: "Complete incident report", tag: "SAFE_DELAY" }
-  ],
-  correctTag: "SCFHS",
-  mechanism: "safety.fall"
-},
-{
-  q: "A patient suddenly stops breathing while on the ward. What should the nurse technician do FIRST?",
-  options: [
-    { text: "Activate emergency response system", tag: "SCFHS" },
-    { text: "Check oxygen equipment", tag: "NCLEX" },
-    { text: "Begin ventilation without help", tag: "STR" },
-    { text: "Document findings", tag: "SAFE_DELAY" }
-  ],
-  correctTag: "SCFHS",
-  mechanism: "er.respiratoryArrest"
-},
+ 
 
 };
 
